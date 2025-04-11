@@ -6,6 +6,23 @@ require_once 'models/DriverModel.php';
 require_once 'models/VehicleModel.php';
 require_once 'models/OrderModel.php';
 
+if (isset($_GET['success'])) {
+    $messages = [
+        'client_created' => 'Клиент успешно создан',
+        'dispatcher_created' => 'Диспетчер успешно создан',
+        'driver_created' => 'Водитель успешно создан',
+        'vehicle_created' => 'Транспортное средство успешно создано',
+        'order_created' => 'Заказ успешно создан'
+    ];
+    if (isset($messages[$_GET['success']])) {
+        echo '<div class="success-message">'.$messages[$_GET['success']].'</div>';
+    }
+}
+
+if (isset($_GET['error'])) {
+    echo '<div class="error-message">'.htmlspecialchars($_GET['error']).'</div>';
+}
+
 try {
     // Получаем данные из моделей
     $clients = ClientModel::getAllClients();

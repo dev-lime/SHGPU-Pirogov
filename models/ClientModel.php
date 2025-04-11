@@ -11,5 +11,19 @@ class ClientModel {
         pg_close($con);
         return $clients;
     }
+
+    public static function createClient($connection, $data) {
+        $sql = "INSERT INTO clients (full_name, phone, email, company_name) 
+                VALUES ($1, $2, $3, $4)";
+        
+        $result = pg_query_params($connection, $sql, [
+            $data['full_name'],
+            $data['phone'],
+            $data['email'],
+            $data['company_name']
+        ]);
+        
+        return $result;
+    }
 }
 ?>

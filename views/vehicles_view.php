@@ -22,3 +22,33 @@
     </tbody>
 </table>
 <p class="count">Всего транспортных средств: <?= count($vehicles) ?></p>
+
+<button class="create-btn" onclick="toggleForm('vehicle-form')">+ Добавить транспорт</button>
+
+<div id="vehicle-form" class="create-form" style="display: none;">
+    <h3>Новое транспортное средство</h3>
+    <form action="/controllers/create_vehicle.php" method="POST">
+        <div class="form-group">
+            <label>Гос. номер:</label>
+            <input type="text" name="plate_number" required>
+        </div>
+        <div class="form-group">
+            <label>Модель:</label>
+            <input type="text" name="model">
+        </div>
+        <div class="form-group">
+            <label>Грузоподъемность (кг):</label>
+            <input type="number" name="capacity_kg" min="1">
+        </div>
+        <div class="form-group">
+            <label>Статус:</label>
+            <select name="status">
+                <option value="available">Доступен</option>
+                <option value="in_transit">В рейсе</option>
+                <option value="maintenance">На обслуживании</option>
+            </select>
+        </div>
+        <button type="submit" class="submit-btn">Создать</button>
+        <button type="button" class="cancel-btn" onclick="toggleForm('vehicle-form')">Отмена</button>
+    </form>
+</div>
