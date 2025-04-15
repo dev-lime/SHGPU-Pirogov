@@ -119,7 +119,7 @@ function getDriverName($driverId, $drivers) {
 function getVehiclePlate($vehicleId, $vehicles) {
     foreach ($vehicles as $vehicle) {
         if ($vehicle['vehicle_id'] == $vehicleId) {
-            return htmlspecialchars($vehicle['model']);
+            return htmlspecialchars($vehicle['plate_number']);
         }
     }
     return "Неизвестный транспорт";

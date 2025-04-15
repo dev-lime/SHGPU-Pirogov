@@ -42,9 +42,10 @@ document.querySelectorAll('input[name="ids[]"]').forEach(checkbox => {
 function updateDeleteButton() {
     const checkedCount = document.querySelectorAll('input[name="ids[]"]:checked').length;
     const deleteBtn = document.getElementById('delete-selected');
+    const countSpan = document.querySelector('.selected-count');
     
     deleteBtn.disabled = checkedCount === 0;
-    deleteBtn.textContent = `Удалить выбранные (${checkedCount})`;
+    countSpan.textContent = checkedCount;
     
     // Обновляем "Выбрать все"
     const totalCount = document.querySelectorAll('input[name="ids[]"]').length;

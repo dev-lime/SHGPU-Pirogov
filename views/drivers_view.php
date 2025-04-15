@@ -23,13 +23,18 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-<button type="button" id="delete-selected" class="delete-btn" disabled>
-    Удалить выбранные (0)
-</button>
-</form>
-<p class="count">Всего водителей: <?= count($drivers) ?></p>
 
-<button class="create-btn" onclick="toggleForm('driver-form')">+ Добавить водителя</button>
+<div class="table-controls">
+    <div class="controls-left">
+        <button class="create-btn" onclick="toggleForm('driver-form')">+ Создать</button>
+        <button type="button" id="delete-selected" class="delete-btn" disabled>
+            Удалить выбранные (<span class="selected-count">0</span>)
+        </button>
+    </div>
+    <div class="controls-right">
+        <p class="count">Всего записей: <?= count($drivers) ?></p>
+    </div>
+</div>
 
 <div id="driver-form" class="create-form" style="display: none;">
     <h3>Новый водитель</h3>

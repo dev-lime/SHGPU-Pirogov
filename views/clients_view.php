@@ -25,13 +25,18 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-<button type="button" id="delete-selected" class="delete-btn" disabled>
-    Удалить выбранные (0)
-</button>
-</form>
-<p class="count">Всего клиентов: <?= count($clients) ?></p>
 
-<button class="create-btn" onclick="toggleForm('client-form')">+ Добавить клиента</button>
+<div class="table-controls">
+    <div class="controls-left">
+        <button class="create-btn" onclick="toggleForm('client-form')">+ Создать</button>
+        <button type="button" id="delete-selected" class="delete-btn" disabled>
+            Удалить выбранные (<span class="selected-count">0</span>)
+        </button>
+    </div>
+    <div class="controls-right">
+        <p class="count">Всего записей: <?= count($clients) ?></p>
+    </div>
+</div>
 
 <div id="client-form" class="create-form" style="display: none;">
     <h3>Новый клиент</h3>

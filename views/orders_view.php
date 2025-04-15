@@ -72,13 +72,18 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-<button type="button" id="delete-selected" class="delete-btn" disabled>
-    Удалить выбранные (0)
-</button>
-</form>
-<p class="count">Всего заказов: <?= count($orders) ?></p>
 
-<button class="create-btn" onclick="toggleForm('order-form')">+ Добавить заказ</button>
+<div class="table-controls">
+    <div class="controls-left">
+        <button class="create-btn" onclick="toggleForm('order-form')">+ Создать</button>
+        <button type="button" id="delete-selected" class="delete-btn" disabled>
+            Удалить выбранные (<span class="selected-count">0</span>)
+        </button>
+    </div>
+    <div class="controls-right">
+        <p class="count">Всего записей: <?= count($orders) ?></p>
+    </div>
+</div>
 
 <div id="order-form" class="create-form" style="display: none;">
     <h3>Новый заказ</h3>
@@ -121,7 +126,7 @@
             <select name="vehicle_id">
                 <?php foreach ($vehicles as $vehicle): ?>
                 <option value="<?= $vehicle['vehicle_id'] ?>">
-                    <?= htmlspecialchars($vehicle['model']) ?>
+                    <?= htmlspecialchars($vehicle['plate_number']) ?>
                 </option>
                 <?php endforeach; ?>
             </select>
