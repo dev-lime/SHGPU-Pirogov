@@ -4,7 +4,7 @@
 <table>
     <thead>
         <tr>
-            <th width="30px"><input type="checkbox" id="select-all"></th>
+            <th width="30px"><!--input type="checkbox" id="select-all"--></th>
             <th>ID</th>
             <th>Клиент</th>
             <th>Диспетчер</th>
@@ -33,7 +33,34 @@
                     Не указан
                 <?php endif; ?>
             </td>
-            <!-- Остальные ячейки с ссылками -->
+            <td>
+                <?php if ($order['dispatcher_id']): ?>
+                    <a href="#dispatcher-<?= $order['dispatcher_id'] ?>" class="entity-link">
+                        <?= getDispatcherName($order['dispatcher_id'], $dispatchers) ?>
+                    </a>
+                <?php else: ?>
+                    Не указан
+                <?php endif; ?>
+            </td>
+            <td>
+                <?php if ($order['driver_id']): ?>
+                    <a href="#driver-<?= $order['driver_id'] ?>" class="entity-link">
+                        <?= getDriverName($order['driver_id'], $drivers) ?>
+                    </a>
+                <?php else: ?>
+                    Не указан
+                <?php endif; ?>
+            </td>
+            <td>
+                <?php if ($order['vehicle_id']): ?>
+                    <a href="#vehicle-<?= $order['vehicle_id'] ?>" class="entity-link">
+                        <?= getVehiclePlate($order['vehicle_id'], $vehicles) ?>
+                    </a>
+                <?php else: ?>
+                    Не указан
+                <?php endif; ?>
+            </td>
+            
             <td><?= htmlspecialchars($order['origin']) ?></td>
             <td><?= htmlspecialchars($order['destination']) ?></td>
             <td><?= htmlspecialchars(mb_substr($order['cargo_description'], 0, 30)) ?>...</td>

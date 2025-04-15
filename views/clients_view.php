@@ -4,7 +4,7 @@
 <table>
     <thead>
         <tr>
-            <th width="30px"><input type="checkbox" id="select-all"></th>
+            <th width="30px"><!--input type="checkbox" id="select-all"--></th>
             <th>ID</th>
             <th>ФИО</th>
             <th>Телефон</th>

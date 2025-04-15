@@ -92,13 +92,11 @@ tr:hover {
     background: rgba(255,255,255,0.2);
 }
 
-/* Якорные ссылки */
 section {
     padding-top: 60px;
     margin-top: -60px;
 }
 
-/* Формы создания */
 .create-btn {
     background: #27ae60;
     color: white;
@@ -201,7 +199,6 @@ select {
     text-decoration: underline;
 }
 
-/* Подсветка при переходе по якорной ссылке */
 tr:target {
     background-color: #fffde7 !important;
     animation: highlight 2s;
@@ -212,7 +209,6 @@ tr:target {
     to { background-color: #fffde7; }
 }
 
-/* Чекбоксы и кнопка удаления */
 .delete-btn {
     background: #e74c3c;
     color: white;
