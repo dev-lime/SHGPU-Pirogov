@@ -1,7 +1,10 @@
 <h2>Транспортные средства</h2>
+<form id="delete-form" action="/controllers/delete_entities.php" method="POST">
+<input type="hidden" name="entity_type" value="vehicles">
 <table>
     <thead>
         <tr>
+            <th width="30px"><input type="checkbox" id="select-all"></th>
             <th>ID</th>
             <th>Гос. номер</th>
             <th>Модель</th>
@@ -11,7 +14,8 @@
     </thead>
     <tbody>
         <?php foreach ($vehicles as $vehicle): ?>
-        <tr>
+        <tr id="vehicle-<?= $vehicle['vehicle_id'] ?>">
+            <td><input type="checkbox" name="ids[]" value="<?= $vehicle['vehicle_id'] ?>"></td>
             <td><?= htmlspecialchars($vehicle['vehicle_id']) ?></td>
             <td><?= htmlspecialchars($vehicle['plate_number']) ?></td>
             <td><?= htmlspecialchars($vehicle['model']) ?></td>
@@ -21,6 +25,10 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<button type="button" id="delete-selected" class="delete-btn" disabled>
+    Удалить выбранные (0)
+</button>
+</form>
 <p class="count">Всего транспортных средств: <?= count($vehicles) ?></p>
 
 <button class="create-btn" onclick="toggleForm('vehicle-form')">+ Добавить транспорт</button>

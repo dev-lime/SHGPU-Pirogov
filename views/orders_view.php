@@ -1,7 +1,10 @@
 <h2>Заказы</h2>
+<form id="delete-form" action="/controllers/delete_entities.php" method="POST">
+<input type="hidden" name="entity_type" value="orders">
 <table>
     <thead>
         <tr>
+            <th width="30px"><input type="checkbox" id="select-all"></th>
             <th>ID</th>
             <th>Клиент</th>
             <th>Диспетчер</th>
@@ -18,12 +21,19 @@
     </thead>
     <tbody>
         <?php foreach ($orders as $order): ?>
-        <tr>
+        <tr id="order-<?= $order['order_id'] ?>">
+            <td><input type="checkbox" name="ids[]" value="<?= $order['order_id'] ?>"></td>
             <td><?= htmlspecialchars($order['order_id']) ?></td>
-            <td><?= htmlspecialchars($order['client_id']) ?></td>
-            <td><?= htmlspecialchars($order['dispatcher_id']) ?></td>
-            <td><?= htmlspecialchars($order['driver_id']) ?></td>
-            <td><?= htmlspecialchars($order['vehicle_id']) ?></td>
+            <td>
+                <?php if ($order['client_id']): ?>
+                    <a href="#client-<?= $order['client_id'] ?>" class="entity-link">
+                        <?= getClientName($order['client_id'], $clients) ?>
+                    </a>
+                <?php else: ?>
+                    Не указан
+                <?php endif; ?>
+            </td>
+            <!-- Остальные ячейки с ссылками -->
             <td><?= htmlspecialchars($order['origin']) ?></td>
             <td><?= htmlspecialchars($order['destination']) ?></td>
             <td><?= htmlspecialchars(mb_substr($order['cargo_description'], 0, 30)) ?>...</td>
@@ -35,6 +45,10 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<button type="button" id="delete-selected" class="delete-btn" disabled>
+    Удалить выбранные (0)
+</button>
+</form>
 <p class="count">Всего заказов: <?= count($orders) ?></p>
 
 <button class="create-btn" onclick="toggleForm('order-form')">+ Добавить заказ</button>
@@ -64,7 +78,27 @@
             </select>
         </div>
         
-        <!-- Аналогичные селекты для driver_id и vehicle_id -->
+        <div class="form-group">
+            <label>Водитель:</label>
+            <select name="driver_id">
+                <?php foreach ($drivers as $driver): ?>
+                <option value="<?= $driver['driver_id'] ?>">
+                    <?= htmlspecialchars($driver['full_name']) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Транспорт:</label>
+            <select name="vehicle_id">
+                <?php foreach ($vehicles as $vehicle): ?>
+                <option value="<?= $vehicle['vehicle_id'] ?>">
+                    <?= htmlspecialchars($vehicle['model']) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
         
         <div class="form-group">
             <label>Откуда:</label>

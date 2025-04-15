@@ -1,7 +1,10 @@
 <h2>Клиенты</h2>
+<form id="delete-form" action="/controllers/delete_entities.php" method="POST">
+<input type="hidden" name="entity_type" value="clients">
 <table>
     <thead>
         <tr>
+            <th width="30px"><input type="checkbox" id="select-all"></th>
             <th>ID</th>
             <th>ФИО</th>
             <th>Телефон</th>
@@ -11,7 +14,8 @@
     </thead>
     <tbody>
         <?php foreach ($clients as $client): ?>
-        <tr>
+        <tr id="client-<?= $client['client_id'] ?>">
+            <td><input type="checkbox" name="ids[]" value="<?= $client['client_id'] ?>"></td>
             <td><?= htmlspecialchars($client['client_id']) ?></td>
             <td><?= htmlspecialchars($client['full_name']) ?></td>
             <td><?= htmlspecialchars($client['phone']) ?></td>
@@ -21,6 +25,10 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<button type="button" id="delete-selected" class="delete-btn" disabled>
+    Удалить выбранные (0)
+</button>
+</form>
 <p class="count">Всего клиентов: <?= count($clients) ?></p>
 
 <button class="create-btn" onclick="toggleForm('client-form')">+ Добавить клиента</button>

@@ -1,7 +1,10 @@
 <h2>Водители</h2>
+<form id="delete-form" action="/controllers/delete_entities.php" method="POST">
+<input type="hidden" name="entity_type" value="drivers">
 <table>
     <thead>
         <tr>
+            <th width="30px"><input type="checkbox" id="select-all"></th>
             <th>ID</th>
             <th>ФИО</th>
             <th>Номер лицензии</th>
@@ -10,7 +13,8 @@
     </thead>
     <tbody>
         <?php foreach ($drivers as $driver): ?>
-        <tr>
+        <tr id="driver-<?= $driver['driver_id'] ?>">
+            <td><input type="checkbox" name="ids[]" value="<?= $driver['driver_id'] ?>"></td>
             <td><?= htmlspecialchars($driver['driver_id']) ?></td>
             <td><?= htmlspecialchars($driver['full_name']) ?></td>
             <td><?= htmlspecialchars($driver['license_number']) ?></td>
@@ -19,7 +23,11 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-<p class="count">Всего водителей: <?= count($drivers) ?></
+<button type="button" id="delete-selected" class="delete-btn" disabled>
+    Удалить выбранные (0)
+</button>
+</form>
+<p class="count">Всего водителей: <?= count($drivers) ?></p>
 
 <button class="create-btn" onclick="toggleForm('driver-form')">+ Добавить водителя</button>
 

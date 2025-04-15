@@ -1,7 +1,10 @@
 <h2>Диспетчеры</h2>
+<form id="delete-form" action="/controllers/delete_entities.php" method="POST">
+<input type="hidden" name="entity_type" value="dispatchers">
 <table>
     <thead>
         <tr>
+            <th width="30px"><input type="checkbox" id="select-all"></th>
             <th>ID</th>
             <th>ФИО</th>
             <th>Телефон</th>
@@ -10,7 +13,8 @@
     </thead>
     <tbody>
         <?php foreach ($dispatchers as $dispatcher): ?>
-        <tr>
+        <tr id="dispatcher-<?= $dispatcher['dispatcher_id'] ?>">
+            <td><input type="checkbox" name="ids[]" value="<?= $dispatcher['dispatcher_id'] ?>"></td>
             <td><?= htmlspecialchars($dispatcher['dispatcher_id']) ?></td>
             <td><?= htmlspecialchars($dispatcher['full_name']) ?></td>
             <td><?= htmlspecialchars($dispatcher['phone']) ?></td>
@@ -19,6 +23,10 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<button type="button" id="delete-selected" class="delete-btn" disabled>
+    Удалить выбранные (0)
+</button>
+</form>
 <p class="count">Всего диспетчеров: <?= count($dispatchers) ?></p>
 
 <button class="create-btn" onclick="toggleForm('dispatcher-form')">+ Добавить диспетчера</button>
