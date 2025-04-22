@@ -9,11 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'capacity_kg' => $_POST['capacity_kg'] ?? null,
         'status' => $_POST['status'] ?? 'available'
     ];
-    
+
     try {
         $con = getDBConnection();
         $result = VehicleModel::createVehicle($con, $data);
-        
+
         header("Location: /index.php?success=vehicle_created");
     } catch (Exception $e) {
         header("Location: /index.php?error=" . urlencode($e->getMessage()));

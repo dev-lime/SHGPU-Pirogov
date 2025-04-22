@@ -8,11 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'phone' => $_POST['phone'] ?? null,
         'email' => $_POST['email'] ?? null
     ];
-    
+
     try {
         $con = getDBConnection();
         $result = DispatcherModel::createDispatcher($con, $data);
-        
+
         if ($result) {
             header("Location: /index.php?success=dispatcher_created");
         } else {

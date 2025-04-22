@@ -14,11 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'weight_kg' => $_POST['weight_kg'] ?? null,
         'delivery_date' => $_POST['delivery_date'] ?? null
     ];
-    
+
     try {
         $con = getDBConnection();
         $result = OrderModel::createOrder($con, $data);
-        
+
         header("Location: /index.php?success=order_created");
     } catch (Exception $e) {
         header("Location: /index.php?error=" . urlencode($e->getMessage()));

@@ -1,6 +1,8 @@
 <?php
-class OrderModel {
-    public static function getAllOrders() {
+class OrderModel
+{
+    public static function getAllOrders()
+    {
         $con = getDBConnection();
         $sql = "SELECT * FROM orders";
         $result = pg_query($con, $sql);
@@ -12,12 +14,13 @@ class OrderModel {
         return $orders;
     }
 
-    public static function createOrder($connection, $data) {
+    public static function createOrder($connection, $data)
+    {
         $sql = "INSERT INTO orders (
                     client_id, dispatcher_id, driver_id, vehicle_id, 
                     origin, destination, cargo_description, weight_kg, delivery_date
                 ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
-        
+
         return pg_query_params($connection, $sql, [
             $data['client_id'],
             $data['dispatcher_id'],

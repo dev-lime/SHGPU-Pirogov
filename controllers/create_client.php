@@ -9,11 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'email' => $_POST['email'] ?? null,
         'company_name' => $_POST['company_name'] ?? null
     ];
-    
+
     try {
         $con = getDBConnection();
         $result = ClientModel::createClient($con, $data);
-        
+
         if ($result) {
             header("Location: /index.php?success=client_created");
         } else {
