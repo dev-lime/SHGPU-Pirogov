@@ -42,10 +42,10 @@
    CREATE USER postgres WITH PASSWORD '123';
    GRANT ALL PRIVILEGES ON DATABASE tk TO postgres;
    ```
-3. **Импортируйте схему** из файла `database_schema.sql`
+3. **Импортируйте схему** из файла
 4. **Клонируйте репозиторий** в папку `htdocs`:
    ```bash
-   git clone https://github.com/ваш-логин/SHGPU-Pirogov.git
+   git clone https://github.com/dev-lime/SHGPU-Pirogov.git
    ```
 5. **Настройте подключение** в `config/database.php`
 
