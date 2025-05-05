@@ -1,27 +1,20 @@
 <?php
 require_once '../config/database.php';
 require_once '../models/DispatcherModel.php';
+require_once 'BaseController.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'full_name' => $_POST['full_name'],
-        'phone' => $_POST['phone'] ?? null,
-        'email' => $_POST['email'] ?? null
-    ];
+class CreateDispatcherController extends BaseController {
+    protected static $modelClass = 'DispatcherModel';
+    protected static $successMessage = 'dispatcher_created';
     
-    try {
-        $con = getDBConnection();
-        $result = DispatcherModel::createDispatcher($con, $data);
-        
-        if ($result) {
-            header("Location: /tk/index.php?success=dispatcher_created");
-        } else {
-            header("Location: /tk/index.php?error=dispatcher_create_failed");
-        }
-    } catch (Exception $e) {
-        header("Location: /tk/index.php?error=" . urlencode($e->getMessage()));
+    protected static function prepareData($postData) {
+        return [
+            'full_name' => $postData['full_name'],
+            'phone' => $postData['phone'] ?? null,
+            'email' => $postData['email'] ?? null
+        ];
     }
-} else {
-    header("Location: /tk/index.php");
 }
+
+CreateDispatcherController::handleCreate();
 ?>

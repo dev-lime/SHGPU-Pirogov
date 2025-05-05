@@ -1,28 +1,26 @@
 <?php
 require_once '../config/database.php';
 require_once '../models/OrderModel.php';
+require_once 'BaseController.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'client_id' => $_POST['client_id'],
-        'dispatcher_id' => $_POST['dispatcher_id'] ?? null,
-        'driver_id' => $_POST['driver_id'] ?? null,
-        'vehicle_id' => $_POST['vehicle_id'] ?? null,
-        'origin' => $_POST['origin'],
-        'destination' => $_POST['destination'],
-        'cargo_description' => $_POST['cargo_description'] ?? null,
-        'weight_kg' => $_POST['weight_kg'] ?? null,
-        'delivery_date' => $_POST['delivery_date'] ?? null
-    ];
+class CreateOrderController extends BaseController {
+    protected static $modelClass = 'OrderModel';
+    protected static $successMessage = 'order_created';
     
-    try {
-        $con = getDBConnection();
-        $result = OrderModel::createOrder($con, $data);
-        
-        header("Location: /tk/index.php?success=order_created");
-    } catch (Exception $e) {
-        header("Location: /tk/index.php?error=" . urlencode($e->getMessage()));
+    protected static function prepareData($postData) {
+        return [
+            'client_id' => $postData['client_id'],
+            'dispatcher_id' => $postData['dispatcher_id'] ?? null,
+            'driver_id' => $postData['driver_id'] ?? null,
+            'vehicle_id' => $postData['vehicle_id'] ?? null,
+            'origin' => $postData['origin'],
+            'destination' => $postData['destination'],
+            'cargo_description' => $postData['cargo_description'] ?? null,
+            'weight_kg' => $postData['weight_kg'] ?? null,
+            'delivery_date' => $postData['delivery_date'] ?? null
+        ];
     }
-} else {
-    header("Location: /tk/index.php");
 }
+
+CreateOrderController::handleCreate();
+?>

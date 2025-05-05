@@ -1,27 +1,21 @@
 <?php
 require_once '../config/database.php';
 require_once '../models/ClientModel.php';
+require_once 'BaseController.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'full_name' => $_POST['full_name'],
-        'phone' => $_POST['phone'] ?? null,
-        'email' => $_POST['email'] ?? null,
-        'company_name' => $_POST['company_name'] ?? null
-    ];
+class CreateClientController extends BaseController {
+    protected static $modelClass = 'ClientModel';
+    protected static $successMessage = 'client_created';
     
-    try {
-        $con = getDBConnection();
-        $result = ClientModel::createClient($con, $data);
-        
-        if ($result) {
-            header("Location: /tk/index.php?success=client_created");
-        } else {
-            header("Location: /tk/index.php?error=client_create_failed");
-        }
-    } catch (Exception $e) {
-        header("Location: /tk/index.php?error=" . urlencode($e->getMessage()));
+    protected static function prepareData($postData) {
+        return [
+            'full_name' => $postData['full_name'],
+            'phone' => $postData['phone'] ?? null,
+            'email' => $postData['email'] ?? null,
+            'company_name' => $postData['company_name'] ?? null
+        ];
     }
-} else {
-    header("Location: /tk/index.php");
 }
+
+CreateClientController::handleCreate();
+?>

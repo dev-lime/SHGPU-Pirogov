@@ -1,22 +1,20 @@
 <?php
 require_once '../config/database.php';
 require_once '../models/DriverModel.php';
+require_once 'BaseController.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'full_name' => $_POST['full_name'],
-        'license_number' => $_POST['license_number'],
-        'phone' => $_POST['phone'] ?? null
-    ];
+class CreateDriverController extends BaseController {
+    protected static $modelClass = 'DriverModel';
+    protected static $successMessage = 'driver_created';
     
-    try {
-        $con = getDBConnection();
-        $result = DriverModel::createDriver($con, $data);
-        
-        header("Location: /tk/index.php?success=driver_created");
-    } catch (Exception $e) {
-        header("Location: /tk/index.php?error=" . urlencode($e->getMessage()));
+    protected static function prepareData($postData) {
+        return [
+            'full_name' => $postData['full_name'],
+            'license_number' => $postData['license_number'],
+            'phone' => $postData['phone'] ?? null
+        ];
     }
-} else {
-    header("Location: /tk/index.php");
 }
+
+CreateDriverController::handleCreate();
+?>

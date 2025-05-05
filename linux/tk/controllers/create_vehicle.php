@@ -1,23 +1,21 @@
 <?php
 require_once '../config/database.php';
 require_once '../models/VehicleModel.php';
+require_once 'BaseController.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'plate_number' => $_POST['plate_number'],
-        'model' => $_POST['model'] ?? null,
-        'capacity_kg' => $_POST['capacity_kg'] ?? null,
-        'status' => $_POST['status'] ?? 'available'
-    ];
+class CreateVehicleController extends BaseController {
+    protected static $modelClass = 'VehicleModel';
+    protected static $successMessage = 'vehicle_created';
     
-    try {
-        $con = getDBConnection();
-        $result = VehicleModel::createVehicle($con, $data);
-        
-        header("Location: /tk/index.php?success=vehicle_created");
-    } catch (Exception $e) {
-        header("Location: /tk/index.php?error=" . urlencode($e->getMessage()));
+    protected static function prepareData($postData) {
+        return [
+            'plate_number' => $postData['plate_number'],
+            'model' => $postData['model'] ?? null,
+            'capacity_kg' => $postData['capacity_kg'] ?? null,
+            'status' => $postData['status'] ?? 'available'
+        ];
     }
-} else {
-    header("Location: /tk/index.php");
 }
+
+CreateVehicleController::handleCreate();
+?>
