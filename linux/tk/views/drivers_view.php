@@ -37,7 +37,8 @@
 
 <div id="driver-form" class="create-form" style="display: none;">
 	<h3>Новый водитель</h3>
-	<form action="/tk/controllers/create_driver.php" method="POST">
+	<form action="/tk/controllers/create_entity.php" method="POST">
+		<input type="hidden" name="entity_type" value="driver">
 		<div class="form-group">
 			<label>ФИО:</label>
 			<input type="text" name="full_name" required>

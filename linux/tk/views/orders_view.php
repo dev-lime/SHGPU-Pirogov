@@ -23,43 +23,11 @@
 			<tr id="order-<?= $order['order_id'] ?>">
 				<td><input type="checkbox" name="ids[]" value="<?= $order['order_id'] ?>"></td>
 				<td><?= htmlspecialchars($order['order_id']) ?></td>
-				<td>
-					<?php if ($order['client_id']): ?>
-						<a href="#client-<?= $order['client_id'] ?>" class="entity-link">
-							<?= getClientName($order['client_id'], $clients) ?>
-						</a>
-					<?php else: ?>
-						Не указан
-					<?php endif; ?>
+				<td><?= renderEntityLink($order['client_id'], $clients, 'client_id', 'full_name', 'client') ?></td>
+				<td><?= renderEntityLink($order['dispatcher_id'], $dispatchers, 'dispatcher_id', 'full_name', 'dispatcher') ?>
 				</td>
-				<td>
-					<?php if ($order['dispatcher_id']): ?>
-						<a href="#dispatcher-<?= $order['dispatcher_id'] ?>" class="entity-link">
-							<?= getDispatcherName($order['dispatcher_id'], $dispatchers) ?>
-						</a>
-					<?php else: ?>
-						Не указан
-					<?php endif; ?>
-				</td>
-				<td>
-					<?php if ($order['driver_id']): ?>
-						<a href="#driver-<?= $order['driver_id'] ?>" class="entity-link">
-							<?= getDriverName($order['driver_id'], $drivers) ?>
-						</a>
-					<?php else: ?>
-						Не указан
-					<?php endif; ?>
-				</td>
-				<td>
-					<?php if ($order['vehicle_id']): ?>
-						<a href="#vehicle-<?= $order['vehicle_id'] ?>" class="entity-link">
-							<?= getVehiclePlate($order['vehicle_id'], $vehicles) ?>
-						</a>
-					<?php else: ?>
-						Не указан
-					<?php endif; ?>
-				</td>
-
+				<td><?= renderEntityLink($order['driver_id'], $drivers, 'driver_id', 'full_name', 'driver') ?></td>
+				<td><?= renderEntityLink($order['vehicle_id'], $vehicles, 'vehicle_id', 'plate_number', 'vehicle') ?></td>
 				<td><?= htmlspecialchars($order['origin']) ?></td>
 				<td><?= htmlspecialchars($order['destination']) ?></td>
 				<td><?= htmlspecialchars($order['cargo_description']) ?></td>
@@ -86,7 +54,8 @@
 
 <div id="order-form" class="create-form" style="display: none;">
 	<h3>Новый заказ</h3>
-	<form action="/tk/controllers/create_order.php" method="POST">
+	<form action="/tk/controllers/create_entity.php" method="POST">
+		<input type="hidden" name="entity_type" value="order">
 		<div class="form-group">
 			<label>Клиент:</label>
 			<select name="client_id" required>
@@ -97,7 +66,6 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
-
 		<div class="form-group">
 			<label>Диспетчер:</label>
 			<select name="dispatcher_id">
@@ -108,7 +76,6 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
-
 		<div class="form-group">
 			<label>Водитель:</label>
 			<select name="driver_id">
@@ -119,7 +86,6 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
-
 		<div class="form-group">
 			<label>Транспорт:</label>
 			<select name="vehicle_id">
@@ -130,32 +96,26 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
-
 		<div class="form-group">
 			<label>Откуда:</label>
 			<input type="text" name="origin" required>
 		</div>
-
 		<div class="form-group">
 			<label>Куда:</label>
 			<input type="text" name="destination" required>
 		</div>
-
 		<div class="form-group">
 			<label>Описание груза:</label>
 			<textarea name="cargo_description"></textarea>
 		</div>
-
 		<div class="form-group">
 			<label>Вес (кг):</label>
 			<input type="number" name="weight_kg" min="1">
 		</div>
-
 		<div class="form-group">
 			<label>Дата доставки:</label>
 			<input type="date" name="delivery_date">
 		</div>
-
 		<button type="submit" class="submit-btn">Создать</button>
 		<button type="button" class="cancel-btn" onclick="toggleForm('order-form')">Отмена</button>
 	</form>

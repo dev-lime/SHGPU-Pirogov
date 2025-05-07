@@ -39,7 +39,8 @@
 
 <div id="client-form" class="create-form" style="display: none;">
 	<h3>Новый клиент</h3>
-	<form action="/tk/controllers/create_client.php" method="POST">
+	<form action="/tk/controllers/create_entity.php" method="POST">
+		<input type="hidden" name="entity_type" value="client">
 		<div class="form-group">
 			<label>ФИО:</label>
 			<input type="text" name="full_name" required>

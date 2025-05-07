@@ -39,7 +39,8 @@
 
 <div id="vehicle-form" class="create-form" style="display: none;">
 	<h3>Новое транспортное средство</h3>
-	<form action="/tk/controllers/create_vehicle.php" method="POST">
+	<form action="/tk/controllers/create_entity.php" method="POST">
+		<input type="hidden" name="entity_type" value="vehicle">
 		<div class="form-group">
 			<label>Гос. номер:</label>
 			<input type="text" name="plate_number" required>
