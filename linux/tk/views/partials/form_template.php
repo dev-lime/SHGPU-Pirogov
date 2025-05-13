@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var string $title
+ * @var string $entityType
+ * @var array $fields
+ */
+extract($config); // Извлекаем переменные из конфигурационного массива
+?>
 <div id="<?= $entityType ?>-form" class="create-form" style="display: none;">
 	<h3><?= $title ?></h3>
 	<form action="/tk/controllers/create_entity.php" method="POST">
@@ -6,18 +14,18 @@
 			<div class="form-group">
 				<label><?= htmlspecialchars($field['label']) ?>:</label>
 				<?php if ($field['type'] === 'select'): ?>
-					<select name="<?= $field['name'] ?>" <?= $field['required'] ? 'required' : '' ?>>
-						<?php foreach (${$field['options']} as $option): ?>
-							<option value="<?= $option[$field['valueField']] ?>">
-								<?= htmlspecialchars($option[$field['displayField']]) ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
+					<?= renderSelectElement(
+						$field['name'],
+						${$field['options']},
+						$field['valueField'],
+						$field['displayField'],
+						null,
+						$field['required'] ?? false
+					) ?>
 				<?php elseif ($field['type'] === 'textarea'): ?>
 					<textarea name="<?= $field['name'] ?>"></textarea>
 				<?php else: ?>
-					<input type="<?= $field['type'] ?>" name="<?= $field['name'] ?>" <?= $field['required'] ? 'required' : '' ?>
-						<?= isset($field['min']) ? "min=\"{$field['min']}\"" : '' ?>>
+					<input type="<?= $field['type'] ?>" name="<?= $field['name'] ?>" <?= !empty($field['required']) ? 'required' : '' ?> 		<?= isset($field['min']) ? "min=\"{$field['min']}\"" : '' ?>>
 				<?php endif; ?>
 			</div>
 		<?php endforeach; ?>

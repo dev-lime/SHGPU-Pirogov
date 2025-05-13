@@ -1,3 +1,13 @@
+<?php
+/**
+ * @var string $title
+ * @var string $entityType
+ * @var string $primaryKey
+ * @var array $items
+ * @var array $columns
+ */
+extract($config); // Извлекаем переменные из конфигурационного массива
+?>
 <h2><?= htmlspecialchars($title) ?></h2>
 <input type="hidden" name="entity_type" value="<?= $entityType ?>">
 <table>
