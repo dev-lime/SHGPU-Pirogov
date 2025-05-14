@@ -1,4 +1,10 @@
 <?php
+$statusOptions = [
+	['value' => 'available', 'display' => 'Доступен'],
+	['value' => 'in_transit', 'display' => 'В рейсе'],
+	['value' => 'maintenance', 'display' => 'На обслуживании']
+];
+
 $config = [
 	'title' => 'Транспортные средства',
 	'entityType' => 'vehicle',
@@ -19,11 +25,7 @@ $config = [
 			'name' => 'status',
 			'label' => 'Статус',
 			'type' => 'select',
-			'options' => [
-				['value' => 'available', 'display' => 'Доступен'],
-				['value' => 'in_transit', 'display' => 'В рейсе'],
-				['value' => 'maintenance', 'display' => 'На обслуживании'],
-			],
+			'options' => $statusOptions,
 			'valueField' => 'value',
 			'displayField' => 'display'
 		]

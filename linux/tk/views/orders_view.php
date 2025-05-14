@@ -1,9 +1,37 @@
 <?php
+$clientOptions = array_map(function ($client) {
+	return [
+		'value' => $client['client_id'],
+		'display' => $client['full_name']
+	];
+}, $clients ?? []);
+
+$dispatcherOptions = array_map(function ($dispatcher) {
+	return [
+		'value' => $dispatcher['dispatcher_id'],
+		'display' => $dispatcher['full_name']
+	];
+}, $dispatchers ?? []);
+
+$driverOptions = array_map(function ($driver) {
+	return [
+		'value' => $driver['driver_id'],
+		'display' => $driver['full_name']
+	];
+}, $drivers ?? []);
+
+$vehicleOptions = array_map(function ($vehicle) {
+	return [
+		'value' => $vehicle['vehicle_id'],
+		'display' => $vehicle['plate_number']
+	];
+}, $vehicles ?? []);
+
 $config = [
 	'title' => 'Заказы',
 	'entityType' => 'order',
 	'primaryKey' => 'order_id',
-	'items' => $orders,
+	'items' => $orders ?? [],
 	'columns' => [
 		['field' => 'order_id', 'label' => 'ID'],
 		[
@@ -59,34 +87,37 @@ $config = [
 			'name' => 'client_id',
 			'label' => 'Клиент',
 			'type' => 'select',
-			'required' => true,
-			'options' => 'clients',
-			'valueField' => 'client_id',
-			'displayField' => 'full_name'
+			'options' => $clientOptions,
+			'valueField' => 'value',
+			'displayField' => 'display',
+			'required' => true
 		],
 		[
 			'name' => 'dispatcher_id',
 			'label' => 'Диспетчер',
 			'type' => 'select',
-			'options' => 'dispatchers',
-			'valueField' => 'dispatcher_id',
-			'displayField' => 'full_name'
+			'options' => $dispatcherOptions,
+			'valueField' => 'value',
+			'displayField' => 'display',
+			'required' => true
 		],
 		[
 			'name' => 'driver_id',
 			'label' => 'Водитель',
 			'type' => 'select',
-			'options' => 'drivers',
-			'valueField' => 'driver_id',
-			'displayField' => 'full_name'
+			'options' => $driverOptions,
+			'valueField' => 'value',
+			'displayField' => 'display',
+			'required' => true
 		],
 		[
 			'name' => 'vehicle_id',
 			'label' => 'Транспорт',
 			'type' => 'select',
-			'options' => 'vehicles',
-			'valueField' => 'vehicle_id',
-			'displayField' => 'plate_number'
+			'options' => $vehicleOptions,
+			'valueField' => 'value',
+			'displayField' => 'display',
+			'required' => true
 		],
 		['name' => 'origin', 'label' => 'Откуда', 'type' => 'text', 'required' => true],
 		['name' => 'destination', 'label' => 'Куда', 'type' => 'text', 'required' => true],

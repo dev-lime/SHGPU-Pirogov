@@ -3,7 +3,7 @@ $config = [
 	'title' => 'Диспетчеры',
 	'entityType' => 'dispatcher',
 	'primaryKey' => 'dispatcher_id',
-	'items' => $dispatchers,
+	'items' => $dispatchers ?? [],
 	'columns' => [
 		['field' => 'dispatcher_id', 'label' => 'ID'],
 		['field' => 'full_name', 'label' => 'ФИО'],

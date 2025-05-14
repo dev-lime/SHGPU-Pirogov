@@ -3,7 +3,7 @@ $config = [
 	'title' => 'Клиенты',
 	'entityType' => 'client',
 	'primaryKey' => 'client_id',
-	'items' => $clients,
+	'items' => $clients ?? [],
 	'columns' => [
 		['field' => 'client_id', 'label' => 'ID'],
 		['field' => 'full_name', 'label' => 'ФИО'],

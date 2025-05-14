@@ -1,13 +1,8 @@
 <?php
-/**
- * @var string $title
- * @var string $entityType
- * @var array $fields
- */
-extract($config); // Извлекаем переменные из конфигурационного массива
+extract($config);
 ?>
 <div id="<?= $entityType ?>-form" class="create-form" style="display: none;">
-	<h3><?= $title ?></h3>
+	<h3><?= htmlspecialchars($title) ?></h3>
 	<form action="/tk/controllers/create_entity.php" method="POST">
 		<input type="hidden" name="entity_type" value="<?= $entityType ?>">
 		<?php foreach ($fields as $field): ?>
@@ -16,9 +11,9 @@ extract($config); // Извлекаем переменные из конфигу
 				<?php if ($field['type'] === 'select'): ?>
 					<?= renderSelectElement(
 						$field['name'],
-						${$field['options']},
-						$field['valueField'],
-						$field['displayField'],
+						$field['options'] ?? null,
+						$field['valueField'] ?? 'value',
+						$field['displayField'] ?? 'display',
 						null,
 						$field['required'] ?? false
 					) ?>

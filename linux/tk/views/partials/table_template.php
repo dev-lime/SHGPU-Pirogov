@@ -6,35 +6,38 @@
  * @var array $items
  * @var array $columns
  */
-extract($config); // Извлекаем переменные из конфигурационного массива
+extract($config);
+if (!isset($items) || !is_array($items)) {
+	$items = [];
+}
 ?>
-<h2><?= htmlspecialchars($title) ?></h2>
-<input type="hidden" name="entity_type" value="<?= $entityType ?>">
+<h2><?= htmlspecialchars($title ?? '') ?></h2>
+<input type="hidden" name="entity_type" value="<?= $entityType ?? '' ?>">
 <table>
 	<thead>
 		<tr>
 			<th width="30px"><!--input type="checkbox" id="select-all"--></th>
-			<?php foreach ($columns as $column): ?>
-				<th><?= htmlspecialchars($column['label']) ?></th>
+			<?php foreach ($columns ?? [] as $column): ?>
+				<th><?= htmlspecialchars($column['label'] ?? '') ?></th>
 			<?php endforeach; ?>
 		</tr>
 	</thead>
 	<tbody>
 		<?php foreach ($items as $item): ?>
-			<tr id="<?= $entityType ?>-<?= $item[$primaryKey] ?>">
-				<td><input type="checkbox" name="ids[]" value="<?= $item[$primaryKey] ?>"></td>
-				<?php foreach ($columns as $column): ?>
+			<tr id="<?= $entityType ?? '' ?>-<?= $item[$primaryKey ?? ''] ?? '' ?>">
+				<td><input type="checkbox" name="ids[]" value="<?= $item[$primaryKey ?? ''] ?? '' ?>"></td>
+				<?php foreach ($columns ?? [] as $column): ?>
 					<td>
-						<?php if (isset($column['link'])): ?>
+						<?php if (isset($column['link']) && isset(${$column['link']['entities']})): ?>
 							<?= renderEntityLink(
-								$item[$column['field']],
+								$item[$column['field']] ?? null,
 								${$column['link']['entities']},
-								$column['link']['idField'],
-								$column['link']['nameField'],
-								$column['link']['entityType']
+								$column['link']['idField'] ?? '',
+								$column['link']['nameField'] ?? '',
+								$column['link']['entityType'] ?? ''
 							) ?>
 						<?php else: ?>
-							<?= htmlspecialchars($item[$column['field']] ?? '') ?>
+							<?= htmlspecialchars($item[$column['field'] ?? ''] ?? '') ?>
 						<?php endif; ?>
 					</td>
 				<?php endforeach; ?>
@@ -45,7 +48,7 @@ extract($config); // Извлекаем переменные из конфигу
 
 <div class="table-controls">
 	<div class="controls-left">
-		<button class="create-btn" onclick="toggleForm('<?= $entityType ?>-form')">+ Создать</button>
+		<button class="create-btn" onclick="toggleForm('<?= $entityType ?? '' ?>-form')">+ Создать</button>
 		<button type="button" id="delete-selected" class="delete-btn" disabled>
 			Удалить выбранные (<span class="selected-count">0</span>)
 		</button>

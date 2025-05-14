@@ -50,34 +50,33 @@ function renderEntityLink($entityId, array $entities, string $idField, string $n
 
 /**
  * Рендерит select-элемент для формы
- * 
- * @param string $name Имя элемента
- * @param array $options Массив опций
- * @param string $valueField Поле со значением
- * @param string $displayField Поле с отображаемым текстом
- * @param mixed $selectedValue Выбранное значение
- * @param bool $required Обязательное поле
- * @return string HTML-код select-элемента
  */
-function renderSelectElement(string $name, array $options, string $valueField, string $displayField, $selectedValue = null, bool $required = false): string
-{
-	$html = sprintf(
-		'<select name="%s"%s>',
-		htmlspecialchars($name),
-		$required ? ' required' : ''
-	);
+function renderSelectElement(
+	string $name,
+	?array $options,
+	string $valueField,
+	string $displayField,
+	$selectedValue = null,
+	bool $required = false
+): string {
+	if (!is_array($options)) {
+		return '<select name="' . htmlspecialchars($name) . '"' . ($required ? ' required' : '') . '>'
+			. '<option value="">Нет данных</option>'
+			. '</select>';
+	}
+
+	$html = '<select name="' . htmlspecialchars($name) . '"' . ($required ? ' required' : '') . '>';
 
 	foreach ($options as $option) {
-		$value = htmlspecialchars($option[$valueField]);
-		$display = htmlspecialchars($option[$displayField] ?? '');
-		$selected = ($selectedValue !== null && $option[$valueField] == $selectedValue) ? ' selected' : '';
+		if (!is_array($option))
+			continue;
 
-		$html .= sprintf(
-			'<option value="%s"%s>%s</option>',
-			$value,
-			$selected,
-			$display
-		);
+		$value = htmlspecialchars($option[$valueField] ?? '');
+		$display = htmlspecialchars($option[$displayField] ?? '');
+		$selected = ($selectedValue !== null && ($option[$valueField] ?? null) == $selectedValue)
+			? ' selected' : '';
+
+		$html .= '<option value="' . $value . '"' . $selected . '>' . $display . '</option>';
 	}
 
 	$html .= '</select>';

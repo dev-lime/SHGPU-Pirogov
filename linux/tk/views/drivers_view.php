@@ -3,7 +3,7 @@ $config = [
 	'title' => 'Водители',
 	'entityType' => 'driver',
 	'primaryKey' => 'driver_id',
-	'items' => $drivers,
+	'items' => $drivers ?? [],
 	'columns' => [
 		['field' => 'driver_id', 'label' => 'ID'],
 		['field' => 'full_name', 'label' => 'ФИО'],
