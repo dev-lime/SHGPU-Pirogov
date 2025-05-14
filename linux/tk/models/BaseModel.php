@@ -25,5 +25,15 @@ abstract class BaseModel
 		$sql = "INSERT INTO " . static::$tableName . " ($columns) VALUES ($placeholders)";
 		return pg_query_params($connection, $sql, array_values($data));
 	}
+
+	public static function delete($connection, $ids)
+	{
+		if (empty($ids)) {
+			return false;
+		}
+
+		$placeholders = implode(',', array_fill(0, count($ids), '$' . implode(', $', range(1, count($ids)))));
+		$sql = "DELETE FROM " . static::$tableName . " WHERE " . static::$primaryKey . " IN ($placeholders)";
+		return pg_query_params($connection, $sql, $ids);
+	}
 }
-?>

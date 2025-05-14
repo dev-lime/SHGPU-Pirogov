@@ -282,3 +282,50 @@ input[type="checkbox"] {
 		padding-top: 10px;
 	}
 }
+
+/* Стили для уведомлений */
+.notification {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	padding: 15px 25px;
+	border-radius: 5px;
+	color: white;
+	z-index: 1000;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	opacity: 1;
+	transition: opacity 0.5s ease;
+}
+
+.notification.success {
+	background-color: #4CAF50;
+}
+
+.notification.error {
+	background-color: #F44336;
+}
+
+.notification.fade-out {
+	opacity: 0;
+}
+
+/* Стиль для подсветки */
+.highlight {
+	animation: highlight 2s;
+}
+
+@keyframes highlight {
+	0% {
+		background-color: #ffff99;
+	}
+
+	100% {
+		background-color: transparent;
+	}
+}
+
+/* Стиль для неопределенного состояния чекбокса */
+input[type="checkbox"]:indeterminate {
+	background-color: #2196F3;
+	border-color: #2196F3;
+}
