@@ -14,9 +14,9 @@ $entityTypes = [
 	'order' => ['model' => 'OrderModel']
 ];
 
-$entityType = $_POST['entity_type'] ?? '';
+$entityType = rtrim($_POST['entity_type'] ?? '', 's'); // Удаляем 's' в конце
 if (!isset($entityTypes[$entityType])) {
-	header("Location: /tk/index.php?error=invalid_entity_type");
+	header("Location: /tk/index.php?error=invalid_entity_type&received=" . urlencode($_POST['entity_type'] ?? ''));
 	exit;
 }
 

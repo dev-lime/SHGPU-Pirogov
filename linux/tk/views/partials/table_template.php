@@ -58,3 +58,4 @@ if (!isset($items) || !is_array($items)) {
 		</div>
 	</div>
 </div>
+<input type="hidden" name="entity_type" value="<?= $entityType ?>">

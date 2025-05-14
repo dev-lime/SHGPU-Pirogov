@@ -94,7 +94,7 @@
 					}
 
 					const formData = new FormData();
-					formData.append('entity_type', section.id);
+					formData.append('entity_type', section.id.replace('s-view', ''));
 
 					checkedBoxes.forEach(checkbox => {
 						formData.append('ids[]', checkbox.value);
