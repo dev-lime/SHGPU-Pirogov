@@ -12,7 +12,7 @@ if (!isset($items) || !is_array($items)) {
 }
 ?>
 <h2><?= htmlspecialchars($title ?? '') ?></h2>
-<div class="table-container">
+<div class="table-wrapper">
 	<table>
 		<thead>
 			<tr>
@@ -25,8 +25,7 @@ if (!isset($items) || !is_array($items)) {
 		<tbody>
 			<?php foreach ($items as $item): ?>
 				<tr id="<?= $entityType ?? '' ?>-<?= $item[$primaryKey ?? ''] ?? '' ?>">
-					<td><input type="checkbox" name="ids[]" value="<?= $item[$primaryKey ?? ''] ?? '' ?>"
-							class="row-checkbox"></td>
+					<td><input type="checkbox" class="row-checkbox" value="<?= $item[$primaryKey ?? ''] ?? '' ?>"></td>
 					<?php foreach ($columns ?? [] as $column): ?>
 						<td>
 							<?php if (isset($column['link']) && isset(${$column['link']['entities']})): ?>
@@ -59,7 +58,3 @@ if (!isset($items) || !is_array($items)) {
 		</div>
 	</div>
 </div>
-
-<form class="delete-form" method="POST" action="/tk/controllers/delete_entity.php">
-	<input type="hidden" name="entity_type" value="<?= $entityType ?? '' ?>">
-</form>

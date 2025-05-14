@@ -329,3 +329,8 @@ input[type="checkbox"]:indeterminate {
 	background-color: #2196F3;
 	border-color: #2196F3;
 }
+
+.select-all,
+.row-checkbox {
+	cursor: pointer;
+}
