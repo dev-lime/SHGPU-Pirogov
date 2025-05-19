@@ -124,6 +124,46 @@ $config = [
 		['name' => 'cargo_description', 'label' => 'Описание груза', 'type' => 'textarea'],
 		['name' => 'weight_kg', 'label' => 'Вес (кг)', 'type' => 'number', 'min' => 1],
 		['name' => 'delivery_date', 'label' => 'Дата доставки', 'type' => 'date'],
+	],
+	'filterFields' => [
+		'status' => [
+			'label' => 'Статус',
+			'type' => 'select',
+			'values' => [
+				'pending' => 'В ожидании',
+				'in_progress' => 'В процессе',
+				'completed' => 'Завершен',
+				'cancelled' => 'Отменен'
+			]
+		],
+		'origin' => [
+			'label' => 'Откуда',
+			'type' => 'text',
+			'placeholder' => 'Часть названия...',
+			'filter_type' => 'like'
+		],
+		'destination' => [
+			'label' => 'Куда',
+			'type' => 'text',
+			'placeholder' => 'Часть названия...',
+			'filter_type' => 'like'
+		],
+		'created_at' => [
+			'label' => 'Дата создания',
+			'type' => 'date_range'
+		],
+		'delivery_date' => [
+			'label' => 'Дата доставки',
+			'type' => 'date_range'
+		],
+		'client_id' => [
+			'label' => 'Клиент',
+			'type' => 'select',
+			'values' => array_reduce($clients ?? [], function ($carry, $client) {
+				$carry[$client['client_id']] = $client['full_name'];
+				return $carry;
+			}, [])
+		]
 	]
 ];
 

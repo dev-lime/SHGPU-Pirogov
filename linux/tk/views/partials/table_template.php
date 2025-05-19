@@ -13,6 +13,15 @@ if (!isset($items) || !is_array($items)) {
 ?>
 <h2><?= htmlspecialchars($title ?? '') ?></h2>
 <div class="table-wrapper">
+	<?php if (!empty($filterFields)): ?>
+		<?php
+		$filterConfig = [
+			'entityType' => $entityType,
+			'filterFields' => $filterFields
+		];
+		require 'filter_template.php';
+		?>
+	<?php endif; ?>
 	<table>
 		<thead>
 			<tr>

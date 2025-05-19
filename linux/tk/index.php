@@ -42,13 +42,22 @@ if (isset($_GET['error'])) {
 }
 
 try {
-	// Загрузка данных с проверкой
+	// Получаем параметры фильтрации из GET-запроса
+	$filters = [
+		'clients' => $_GET['client_filter'] ?? [],
+		'dispatchers' => $_GET['dispatcher_filter'] ?? [],
+		'drivers' => $_GET['driver_filter'] ?? [],
+		'vehicles' => $_GET['vehicle_filter'] ?? [],
+		'orders' => $_GET['order_filter'] ?? []
+	];
+
+	// Загрузка данных с фильтрами
 	$data = [
-		'clients' => ClientModel::getAll(),
-		'dispatchers' => DispatcherModel::getAll(),
-		'drivers' => DriverModel::getAll(),
-		'vehicles' => VehicleModel::getAll(),
-		'orders' => OrderModel::getAll()
+		'clients' => ClientModel::getAll($filters['clients']),
+		'dispatchers' => DispatcherModel::getAll($filters['dispatchers']),
+		'drivers' => DriverModel::getAll($filters['drivers']),
+		'vehicles' => VehicleModel::getAll($filters['vehicles']),
+		'orders' => OrderModel::getAll($filters['orders'])
 	];
 
 	// Проверка данных

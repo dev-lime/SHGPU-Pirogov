@@ -334,3 +334,76 @@ input[type="checkbox"]:indeterminate {
 .row-checkbox {
 	cursor: pointer;
 }
+
+.table-filters {
+	background: #f5f5f5;
+	padding: 15px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+
+.filter-group {
+	margin-bottom: 10px;
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.filter-group label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.filter-group select,
+.filter-group input {
+	padding: 5px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+.filter-btn,
+.reset-btn {
+	padding: 5px 10px;
+	background: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.reset-btn {
+	background: #f44336;
+	margin-left: 10px;
+}
+
+.filter-btn:hover {
+	background: #45a049;
+}
+
+.reset-btn:hover {
+	background: #d32f2f;
+}
+
+.date-range-filter {
+	display: flex;
+	align-items: center;
+}
+
+.date-range-filter input {
+	width: 120px;
+}
+
+.date-range-separator {
+	margin: 0 5px;
+}
+
+.filter-actions {
+	margin-top: 10px;
+}
+
+/* Для текстовых фильтров с подсказками */
+input[type="text"]::placeholder {
+	color: #999;
+	font-style: italic;
+	font-size: 0.9em;
+}
