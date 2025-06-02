@@ -142,54 +142,6 @@
 			}, 500);
 		}, 3000);
 	}
-
-	function resetFilters(entityType) {
-		const form = document.querySelector(`form[action=""]`);
-		const inputs = form.querySelectorAll(`
-		input[name^="${entityType}_filter"], 
-		select[name^="${entityType}_filter"],
-		input[name^="${entityType}_filter["]
-	`);
-
-		inputs.forEach(input => {
-			if (input.tagName === 'SELECT') {
-				input.selectedIndex = 0;
-			} else if (input.name.includes('[')) {
-				// Для полей диапазона дат
-				input.value = '';
-			} else {
-				input.value = '';
-			}
-		});
-
-		form.submit();
-	}
-
-	// Сохранение состояния фильтров при переходе между вкладками
-	document.addEventListener('DOMContentLoaded', function () {
-		const filterForms = document.querySelectorAll('.table-filters form');
-		filterForms.forEach(form => {
-			form.addEventListener('submit', function (e) {
-				// Добавляем скрытое поле для сохранения активной вкладки
-				const activeSection = document.querySelector('section:target');
-				if (activeSection) {
-					const input = document.createElement('input');
-					input.type = 'hidden';
-					input.name = 'active_section';
-					input.value = activeSection.id;
-					form.appendChild(input);
-				}
-			});
-		});
-
-		// Восстановление активной вкладки после фильтрации
-		if (window.location.hash) {
-			const target = document.querySelector(window.location.hash);
-			if (target) target.scrollIntoView();
-		} else if (new URLSearchParams(window.location.search).get('active_section')) {
-			window.location.hash = '#' + new URLSearchParams(window.location.search).get('active_section');
-		}
-	});
 </script>
 </body>
 

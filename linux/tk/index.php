@@ -22,7 +22,9 @@ $messages = [
 	'driver_created' => 'Водитель успешно создан',
 	'vehicle_created' => 'Транспортное средство успешно создано',
 	'order_created' => 'Заказ успешно создан',
-	'records_deleted' => 'Записи успешно удалены'
+	'records_deleted' => 'Записи успешно удалены',
+	'order_status_updated' => 'Статус заказа успешно обновлен',
+	'cannot_deliver_not_picked_up' => 'Невозможно отметить как доставленный: товар не был забран со склада'
 ];
 
 // Вывод сообщений
@@ -38,26 +40,19 @@ if (isset($_GET['success'])) {
 }
 
 if (isset($_GET['error'])) {
-	showMessage('error', $_GET['error']);
+	$error = $_GET['error'];
+	$message = isset($errorMessages[$error]) ? $errorMessages[$error] : $error;
+	showMessage('error', $message);
 }
 
 try {
-	// Получаем параметры фильтрации из GET-запроса
-	$filters = [
-		'clients' => $_GET['client_filter'] ?? [],
-		'dispatchers' => $_GET['dispatcher_filter'] ?? [],
-		'drivers' => $_GET['driver_filter'] ?? [],
-		'vehicles' => $_GET['vehicle_filter'] ?? [],
-		'orders' => $_GET['order_filter'] ?? []
-	];
-
-	// Загрузка данных с фильтрами
+	// Загрузка данных с проверкой
 	$data = [
-		'clients' => ClientModel::getAll($filters['clients']),
-		'dispatchers' => DispatcherModel::getAll($filters['dispatchers']),
-		'drivers' => DriverModel::getAll($filters['drivers']),
-		'vehicles' => VehicleModel::getAll($filters['vehicles']),
-		'orders' => OrderModel::getAll($filters['orders'])
+		'clients' => ClientModel::getAll(),
+		'dispatchers' => DispatcherModel::getAll(),
+		'drivers' => DriverModel::getAll(),
+		'vehicles' => VehicleModel::getAll(),
+		'orders' => OrderModel::getAll()
 	];
 
 	// Проверка данных

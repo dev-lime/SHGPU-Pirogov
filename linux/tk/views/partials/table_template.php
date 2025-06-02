@@ -13,15 +13,6 @@ if (!isset($items) || !is_array($items)) {
 ?>
 <h2><?= htmlspecialchars($title ?? '') ?></h2>
 <div class="table-wrapper">
-	<?php if (!empty($filterFields)): ?>
-		<?php
-		$filterConfig = [
-			'entityType' => $entityType,
-			'filterFields' => $filterFields
-		];
-		require 'filter_template.php';
-		?>
-	<?php endif; ?>
 	<table>
 		<thead>
 			<tr>
@@ -37,7 +28,9 @@ if (!isset($items) || !is_array($items)) {
 					<td><input type="checkbox" class="row-checkbox" value="<?= $item[$primaryKey ?? ''] ?? '' ?>"></td>
 					<?php foreach ($columns ?? [] as $column): ?>
 						<td>
-							<?php if (isset($column['link']) && isset(${$column['link']['entities']})): ?>
+							<?php if (isset($column['type']) && $column['type'] === 'custom'): ?>
+								<?= $column['render']($item) ?>
+							<?php elseif (isset($column['link']) && isset(${$column['link']['entities']})): ?>
 								<?= renderEntityLink(
 									$item[$column['field']] ?? null,
 									${$column['link']['entities']},

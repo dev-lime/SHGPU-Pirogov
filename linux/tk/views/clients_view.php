@@ -16,16 +16,6 @@ $config = [
 		['name' => 'phone', 'label' => 'Телефон', 'type' => 'text'],
 		['name' => 'email', 'label' => 'Email', 'type' => 'email'],
 		['name' => 'company_name', 'label' => 'Компания', 'type' => 'text'],
-	],
-	'filterFields' => [
-		'full_name' => [
-			'label' => 'ФИО',
-			'type' => 'text'
-		],
-		'company_name' => [
-			'label' => 'Компания',
-			'type' => 'text'
-		]
 	]
 ];
 

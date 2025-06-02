@@ -4,54 +4,11 @@ abstract class BaseModel
 	protected static $tableName;
 	protected static $primaryKey;
 
-	public static function getAll($filters = [])
+	public static function getAll()
 	{
 		$con = getDBConnection();
 		$sql = "SELECT * FROM " . static::$tableName;
-		$params = [];
-		$where = [];
-		$i = 1;
-
-		foreach ($filters as $field => $filter) {
-			if ($filter['value'] === '' || $filter['value'] === [])
-				continue;
-
-			switch ($filter['type']) {
-				case 'text':
-				case 'like':
-					$where[] = "LOWER($field) LIKE LOWER($" . $i++ . ")";
-					$params[] = '%' . $filter['value'] . '%';
-					break;
-
-				case 'exact':
-					$where[] = "$field = $" . $i++;
-					$params[] = $filter['value'];
-					break;
-
-				case 'date_range':
-					if (!empty($filter['value']['from'])) {
-						$where[] = "$field >= $" . $i++;
-						$params[] = $filter['value']['from'];
-					}
-					if (!empty($filter['value']['to'])) {
-						$where[] = "$field <= $" . $i++;
-						$params[] = $filter['value']['to'];
-					}
-					break;
-
-				case 'in':
-					$placeholders = implode(',', array_fill(0, count($filter['value']), '$' . $i++));
-					$where[] = "$field IN ($placeholders)";
-					$params = array_merge($params, $filter['value']);
-					break;
-			}
-		}
-
-		if (!empty($where)) {
-			$sql .= " WHERE " . implode(' AND ', $where);
-		}
-
-		$result = pg_query_params($con, $sql, $params);
+		$result = pg_query($con, $sql);
 		$items = [];
 		while ($row = pg_fetch_assoc($result)) {
 			$items[] = $row;
