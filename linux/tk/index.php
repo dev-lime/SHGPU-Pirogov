@@ -1,4 +1,7 @@
 <?php
+require_once('utils/auth.php');
+requireAuth();
+
 require_once('config/database.php');
 require_once('utils/entity_utils.php');
 

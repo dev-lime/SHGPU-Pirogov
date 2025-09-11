@@ -1,4 +1,7 @@
 <?php
+require_once '../utils/auth.php';
+requirePermission('delete_all');
+
 require_once '../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

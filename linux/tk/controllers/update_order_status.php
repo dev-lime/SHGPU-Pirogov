@@ -1,4 +1,21 @@
 <?php
+require_once '../utils/auth.php';
+requirePermission('update_order_status');
+
+// Проверяем, может ли пользователь обновлять этот заказ
+if (getUserRole() === 'driver') {
+	// Для водителя проверяем, что заказ назначен на него
+	$con = getDBConnection();
+	$checkSql = "SELECT driver_id FROM orders WHERE order_id = $1";
+	$result = pg_query_params($con, $checkSql, [$orderId]);
+	$driverId = pg_fetch_result($result, 0, 0);
+
+	if ($driverId != $_SESSION['entity_id']) {
+		header("Location: /tk/index.php?error=access_denied");
+		exit;
+	}
+}
+
 require_once '../config/database.php';
 require_once '../models/OrderModel.php';
 

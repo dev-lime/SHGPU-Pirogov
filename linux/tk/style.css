@@ -381,3 +381,22 @@ input[type="checkbox"]:indeterminate {
 	background-color: #e8f5e9;
 	border-radius: 4px;
 }
+
+.login-container {
+	max-width: 400px;
+	margin: 100px auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.no-access {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.user-info {
+	float: right;
+	margin: 10px;
+	color: #666;
+}

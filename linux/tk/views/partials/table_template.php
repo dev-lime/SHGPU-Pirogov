@@ -50,10 +50,17 @@ if (!isset($items) || !is_array($items)) {
 
 	<div class="table-controls">
 		<div class="controls-left">
-			<button class="create-btn" onclick="toggleForm('<?= $entityType ?? '' ?>-form')">+ Создать</button>
-			<button type="button" class="delete-btn" disabled>
-				Удалить выбранные (<span class="selected-count">0</span>)
-			</button>
+			<?php
+			// Проверяем права перед отображением кнопок
+			if (hasPermission('create_all')): ?>
+				<button class="create-btn" onclick="toggleForm('<?= $entityType ?? '' ?>-form')">+ Создать</button>
+			<?php endif; ?>
+
+			<?php if (hasPermission('delete_all')): ?>
+				<button type="button" class="delete-btn" disabled>
+					Удалить выбранные (<span class="selected-count">0</span>)
+				</button>
+			<?php endif; ?>
 		</div>
 		<div class="controls-right">
 			<p class="count">Всего записей: <?= count($items) ?></p>
