@@ -1,5 +1,5 @@
 <?php
-require_once '../utils/auth.php';
+require_once __DIR__ . '/../utils/auth.php';
 requireRole('admin');
 
 $con = getDBConnection();
@@ -17,7 +17,13 @@ while ($row = pg_fetch_assoc($result)) {
     $users[] = $row;
 }
 
+require_once __DIR__ . '/../models/RoleModel.php';
 $roles = RoleModel::getAll();
+
+require_once __DIR__ . '/../models/ClientModel.php';
+require_once __DIR__ . '/../models/DispatcherModel.php';
+require_once __DIR__ . '/../models/DriverModel.php';
+
 $clients = ClientModel::getAll();
 $dispatchers = DispatcherModel::getAll();
 $drivers = DriverModel::getAll();
@@ -146,22 +152,24 @@ require 'partials/form_template.php';
             }, $drivers)) ?>
         };
 
-        entityTypeSelect.addEventListener('change', function () {
-            const type = this.value;
-            entityIdSelect.innerHTML = '<option value="">Выберите сущность</option>';
+        if (entityTypeSelect && entityIdSelect) {
+            entityTypeSelect.addEventListener('change', function () {
+                const type = this.value;
+                entityIdSelect.innerHTML = '<option value="">Выберите сущность</option>';
 
-            if (type && entities[type]) {
-                entities[type].forEach(entity => {
-                    const option = document.createElement('option');
-                    option.value = entity.value;
-                    option.textContent = entity.display;
-                    entityIdSelect.appendChild(option);
-                });
-            }
-        });
+                if (type && entities[type]) {
+                    entities[type].forEach(entity => {
+                        const option = document.createElement('option');
+                        option.value = entity.value;
+                        option.textContent = entity.display;
+                        entityIdSelect.appendChild(option);
+                    });
+                }
+            });
+        }
     });
 
     function editUser(userId) {
-        alert('Редактирование пользователя ' + userId + ' (beta)');
+        alert('Редактирование пользователя ' + userId);
     }
 </script>

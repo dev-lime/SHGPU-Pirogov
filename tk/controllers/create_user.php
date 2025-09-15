@@ -1,7 +1,7 @@
 <?php
-require_once '../config/database.php';
-require_once '../models/UserModel.php';
-require_once '../utils/auth.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/UserModel.php';
+require_once __DIR__ . '/../utils/auth.php';
 
 requireRole('admin');
 
