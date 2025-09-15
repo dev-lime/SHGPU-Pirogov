@@ -16,7 +16,11 @@
 		<?php endif; ?>
 
 		<li style="float:right">
-			<a href="/tk/logout.php">Выход (<?= htmlspecialchars($_SESSION['username'] ?? '') ?>)</a>
+			<span class="user-info">
+				<?= htmlspecialchars($_SESSION['username'] ?? '') ?>
+				(<?= htmlspecialchars($_SESSION['role'] ?? '') ?>)
+			</span>
+			<a href="/tk/logout.php">Выход</a>
 		</li>
 	</ul>
 </nav>

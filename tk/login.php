@@ -10,8 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = UserModel::findByUsername($username);
 
         if ($user && UserModel::verifyPassword($password, $user['password_hash'])) {
-            // Временная проверка для отладки
-            //if ($user && ($password === 'admin' && $user['password_hash'] === 'admin')) {
             session_start();
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];

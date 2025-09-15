@@ -400,3 +400,39 @@ input[type="checkbox"]:indeterminate {
 	margin: 10px;
 	color: #666;
 }
+
+.user-actions {
+	display: flex;
+	gap: 5px;
+}
+
+.user-actions .edit-btn,
+.user-actions .delete-btn {
+	padding: 3px 6px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.user-actions .edit-btn {
+	background-color: #3498db;
+	color: white;
+}
+
+.user-actions .delete-btn {
+	background-color: #e74c3c;
+	color: white;
+}
+
+.table-wrapper {
+	overflow-x: auto;
+}
+
+.create-form select {
+	width: 100%;
+	padding: 8px;
+	margin: 5px 0;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}

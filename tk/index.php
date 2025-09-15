@@ -27,7 +27,10 @@ $messages = [
 	'order_created' => 'Заказ успешно создан',
 	'records_deleted' => 'Записи успешно удалены',
 	'order_status_updated' => 'Статус заказа успешно обновлен',
-	'cannot_deliver_not_picked_up' => 'Невозможно отметить как доставленный: товар не был забран со склада'
+	'cannot_deliver_not_picked_up' => 'Невозможно отметить как доставленный: товар не был забран со склада',
+	'user_created' => 'Пользователь успешно создан',
+	'user_deleted' => 'Пользователь успешно удален',
+	'cannot_delete_yourself' => 'Нельзя удалить собственный аккаунт'
 ];
 
 // Вывод сообщений
@@ -76,7 +79,8 @@ try {
 		'dispatchers' => 'dispatchers_view.php',
 		'drivers' => 'drivers_view.php',
 		'vehicles' => 'vehicles_view.php',
-		'orders' => 'orders_view.php'
+		'orders' => 'orders_view.php',
+		'users' => 'users_view.php'
 	];
 
 	foreach ($sections as $id => $view) {
