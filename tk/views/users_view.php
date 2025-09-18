@@ -7,14 +7,16 @@ $sql = "SELECT u.*, r.role_name, r.permissions
         FROM users u 
         LEFT JOIN roles r ON u.role_id = r.role_id 
         ORDER BY u.user_id";
-$result = pg_query($con);
+$result = pg_query($con, $sql);
 $users = [];
-while ($row = pg_fetch_assoc($result)) {
-    if (isset($row['permissions'])) {
-        $row['permissions'] = trim($row['permissions'], '{}');
-        $row['permissions'] = explode(',', $row['permissions']);
+if ($result) {
+    while ($row = pg_fetch_assoc($result)) {
+        if (isset($row['permissions'])) {
+            $row['permissions'] = trim($row['permissions'], '{}');
+            $row['permissions'] = explode(',', $row['permissions']);
+        }
+        $users[] = $row;
     }
-    $users[] = $row;
 }
 
 require_once __DIR__ . '/../models/RoleModel.php';
