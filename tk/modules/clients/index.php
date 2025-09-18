@@ -42,7 +42,13 @@ require '../../templates/header.php';
                     <td><?= htmlspecialchars($client['phone'] ?? 'Не указан') ?></td>
                     <td><?= htmlspecialchars($client['email'] ?? 'Не указан') ?></td>
                     <td><?= htmlspecialchars($client['company_name'] ?? 'Частное лицо') ?></td>
-                    <td><?= date('d.m.Y', strtotime($client['created_at'])) ?></td>
+                    <td>
+                        <?php if (!empty($client['created_at'])): ?>
+                            <?= date('d.m.Y', strtotime($client['created_at'])) ?>
+                        <?php else: ?>
+                            Не указана
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <div class="action-buttons">
                             <a href="edit.php?id=<?= $client['client_id'] ?>" class="btn btn-sm btn-warning">
