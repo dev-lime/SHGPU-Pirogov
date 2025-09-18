@@ -57,9 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="password" name="password" required>
             </div>
             <input type="hidden" name="role_id" value="1">
-            <button type="submit">Зарегистрировать</button>
+            <button type="submit" class="submit-btn">Зарегистрировать</button>
         </form>
-        <p><a href="login.php">Войти в систему</a></p>
+        <p><a href="login.php" class="submit-btn">Войти в систему</a></p>
     </div>
 </body>
 
