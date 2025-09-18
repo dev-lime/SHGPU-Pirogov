@@ -13,11 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 try {
     $con = getDBConnection();
 
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $roleId = $_POST['role_id'] ?? '';
-    $entityType = $_POST['entity_type'] ?? null;
-    $entityId = $_POST['entity_id'] ?? null;
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $roleId = (int) ($_POST['role_id'] ?? 0);
+    $entityType = trim($_POST['entity_type'] ?? '');
+    $entityId = trim($_POST['entity_id'] ?? '');
 
     if (empty($username) || empty($password) || empty($roleId)) {
         throw new Exception("Все обязательные поля должны быть заполнены");
@@ -32,24 +32,29 @@ try {
     }
 
     $passwordHash = UserModel::hashPassword($password);
+
     $data = [
         'username' => $username,
         'password_hash' => $passwordHash,
-        'role_id' => $roleId,
-        'entity_type' => $entityType ?: null,
-        'entity_id' => $entityId ?: null
+        'role_id' => $roleId
     ];
 
-    $data = array_filter($data, function ($value) {
-        return $value !== null && $value !== '';
-    });
+    if (!empty($entityType) && !empty($entityId)) {
+        $data['entity_type'] = $entityType;
+        $data['entity_id'] = (int) $entityId;
+    }
 
-    $result = UserModel::create($con, $data);
+    $columns = implode(', ', array_keys($data));
+    $placeholders = '$' . implode(', $', range(1, count($data)));
+
+    $sql = "INSERT INTO users ($columns) VALUES ($placeholders)";
+    $result = pg_query_params($con, $sql, array_values($data));
 
     if ($result) {
         header("Location: /tk/index.php?success=user_created");
     } else {
-        throw new Exception("Ошибка при создании пользователя");
+        $error = pg_last_error($con);
+        throw new Exception("Ошибка при создании пользователя: " . $error);
     }
 } catch (Exception $e) {
     header("Location: /tk/index.php?error=" . urlencode($e->getMessage()));

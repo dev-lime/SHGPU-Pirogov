@@ -9,6 +9,12 @@ abstract class BaseModel
 		$con = getDBConnection();
 		$sql = "SELECT * FROM " . static::$tableName;
 		$result = pg_query($con, $sql);
+
+		if (!$result) {
+			error_log("Query failed: " . pg_last_error($con));
+			return [];
+		}
+
 		$items = [];
 		while ($row = pg_fetch_assoc($result)) {
 			$items[] = $row;
@@ -23,7 +29,14 @@ abstract class BaseModel
 		$placeholders = '$' . implode(', $', range(1, count($data)));
 
 		$sql = "INSERT INTO " . static::$tableName . " ($columns) VALUES ($placeholders)";
-		return pg_query_params($connection, $sql, array_values($data));
+		$result = pg_query_params($connection, $sql, array_values($data));
+
+		if (!$result) {
+			error_log("Create failed: " . pg_last_error($connection));
+			return false;
+		}
+
+		return $result;
 	}
 
 	public static function delete($connection, $ids)
@@ -34,6 +47,14 @@ abstract class BaseModel
 
 		$placeholders = implode(',', array_fill(0, count($ids), '$' . implode(', $', range(1, count($ids)))));
 		$sql = "DELETE FROM " . static::$tableName . " WHERE " . static::$primaryKey . " IN ($placeholders)";
-		return pg_query_params($connection, $sql, $ids);
+		$result = pg_query_params($connection, $sql, $ids);
+
+		if (!$result) {
+			error_log("Delete failed: " . pg_last_error($connection));
+			return false;
+		}
+
+		return $result;
 	}
 }
+?>

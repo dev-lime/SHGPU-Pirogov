@@ -100,15 +100,15 @@ try {
 	require 'views/footer.php';
 
 } catch (Exception $e) {
-	// Обработка ошибок с выводом деталей
 	require 'views/header.php';
 	echo '<div class="error">';
 	echo '<h2>Произошла ошибка</h2>';
 	echo '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
 
-	// Дополнительная отладочная информация
 	if (ini_get('display_errors')) {
+		echo '<pre>File: ' . htmlspecialchars($e->getFile()) . ':' . htmlspecialchars($e->getLine()) . '</pre>';
 		echo '<pre>' . htmlspecialchars($e->getTraceAsString()) . '</pre>';
+		error_log("Error: " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
 	}
 
 	echo '</div>';
