@@ -1,116 +1,121 @@
 <?php
-require_once('utils/auth.php');
+require_once 'config/database.php';
+require_once 'utils/auth.php';
+require_once 'utils/dashboard_stats.php';
+
 requireAuth();
 
-require_once('config/database.php');
-require_once('utils/entity_utils.php');
+$pageTitle = 'Дашборд - Транспортная компания';
 
-// Настройка отображения ошибок для разработки
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Получаем статистику для дашборда
+$stats = getDashboardStats($_SESSION['user_id'], $_SESSION['role']);
 
-spl_autoload_register(function ($class) {
-	$file = __DIR__ . '/models/' . $class . '.php';
-	if (file_exists($file)) {
-		require $file;
-	} else {
-		throw new Exception("Не удалось загрузить класс: $class");
-	}
-});
+require 'templates/header.php';
+?>
 
-// Сообщения об успешных операциях
-$messages = [
-	'client_created' => 'Клиент успешно создан',
-	'dispatcher_created' => 'Диспетчер успешно создан',
-	'driver_created' => 'Водитель успешно создан',
-	'vehicle_created' => 'Транспортное средство успешно создано',
-	'order_created' => 'Заказ успешно создан',
-	'records_deleted' => 'Записи успешно удалены',
-	'order_status_updated' => 'Статус заказа успешно обновлен',
-	'cannot_deliver_not_picked_up' => 'Невозможно отметить как доставленный: товар не был забран со склада',
-	'user_created' => 'Пользователь успешно создан',
-	'user_deleted' => 'Пользователь успешно удален',
-	'cannot_delete_yourself' => 'Нельзя удалить собственный аккаунт'
-];
+<div class="dashboard">
+	<div class="stats-grid">
+		<div class="stat-card">
+			<div class="stat-icon" style="background: #4CAF50;">
+				<i class="fas fa-shipping-fast"></i>
+			</div>
+			<div class="stat-content">
+				<h3><?= $stats['total_orders'] ?></h3>
+				<p>Всего заказов</p>
+			</div>
+		</div>
 
-// Вывод сообщений
-function showMessage($type, $content)
-{
-	echo '<div class="' . $type . '-message">' . htmlspecialchars($content) . '</div>';
-}
+		<div class="stat-card">
+			<div class="stat-icon" style="background: #2196F3;">
+				<i class="fas fa-truck-loading"></i>
+			</div>
+			<div class="stat-content">
+				<h3><?= $stats['active_orders'] ?></h3>
+				<p>Активные заказы</p>
+			</div>
+		</div>
 
-if (isset($_GET['success'])) {
-	if (isset($messages[$_GET['success']])) {
-		showMessage('success', $messages[$_GET['success']]);
-	}
-}
+		<div class="stat-card">
+			<div class="stat-icon" style="background: #FF9800;">
+				<i class="fas fa-check-circle"></i>
+			</div>
+			<div class="stat-content">
+				<h3><?= $stats['completed_orders'] ?></h3>
+				<p>Завершённые</p>
+			</div>
+		</div>
 
-if (isset($_GET['error'])) {
-	$error = $_GET['error'];
-	$message = isset($errorMessages[$error]) ? $errorMessages[$error] : $error;
-	showMessage('error', $message);
-}
+		<?php if (hasPermission('view_all')): ?>
+			<div class="stat-card">
+				<div class="stat-icon" style="background: #9C27B0;">
+					<i class="fas fa-users"></i>
+				</div>
+				<div class="stat-content">
+					<h3><?= $stats['total_clients'] ?></h3>
+					<p>Клиенты</p>
+				</div>
+			</div>
+		<?php endif; ?>
+	</div>
 
-try {
-	// Загрузка данных с проверкой
-	$data = [
-		'clients' => ClientModel::getAll(),
-		'dispatchers' => DispatcherModel::getAll(),
-		'drivers' => DriverModel::getAll(),
-		'vehicles' => VehicleModel::getAll(),
-		'orders' => OrderModel::getAll()
-	];
+	<div class="dashboard-sections">
+		<div class="recent-orders">
+			<h3>Последние заказы</h3>
+			<div class="table-responsive">
+				<table class="data-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Клиент</th>
+							<th>Направление</th>
+							<th>Статус</th>
+							<th>Дата</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($stats['recent_orders'] as $order): ?>
+							<tr onclick="window.location='/tk/modules/orders/view.php?id=<?= $order['order_id'] ?>'"
+								style="cursor: pointer;">
+								<td>#<?= $order['order_id'] ?></td>
+								<td><?= htmlspecialchars($order['client_name']) ?></td>
+								<td><?= htmlspecialchars($order['origin']) ?> →
+									<?= htmlspecialchars($order['destination']) ?></td>
+								<td><span class="status-badge status-<?= $order['status'] ?>"><?= $order['status'] ?></span>
+								</td>
+								<td><?= date('d.m.Y', strtotime($order['created_at'])) ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
 
-	// Проверка данных
-	foreach ($data as $key => $value) {
-		if (!is_array($value)) {
-			throw new Exception("Ошибка загрузки данных: $key");
-		}
-	}
+		<div class="quick-actions">
+			<h3>Быстрые действия</h3>
+			<div class="action-buttons">
+				<?php if (hasPermission('create_orders')): ?>
+					<a href="/tk/modules/orders/create.php" class="action-btn">
+						<i class="fas fa-plus"></i>
+						<span>Создать заказ</span>
+					</a>
+				<?php endif; ?>
 
-	// Подготовка данных для представлений
-	extract($data);
+				<?php if (hasPermission('view_own_orders')): ?>
+					<a href="/tk/modules/orders/index.php?filter=my" class="action-btn">
+						<i class="fas fa-list"></i>
+						<span>Мои заказы</span>
+					</a>
+				<?php endif; ?>
 
-	// Загрузка шаблонов
-	require 'views/header.php';
+				<?php if (hasPermission('view_all')): ?>
+					<a href="/tk/modules/clients/index.php" class="action-btn">
+						<i class="fas fa-user-plus"></i>
+						<span>Добавить клиента</span>
+					</a>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+</div>
 
-	$sections = [
-		'clients' => 'clients_view.php',
-		'dispatchers' => 'dispatchers_view.php',
-		'drivers' => 'drivers_view.php',
-		'vehicles' => 'vehicles_view.php',
-		'orders' => 'orders_view.php',
-		'users' => 'users_view.php'
-	];
-
-	foreach ($sections as $id => $view) {
-		echo '<section id="' . $id . '">';
-
-		// Проверяем существование файла представления
-		$viewPath = 'views/' . $view;
-		if (!file_exists($viewPath)) {
-			throw new Exception("Файл представления не найден: $viewPath");
-		}
-
-		// Передаем все данные в представление
-		require $viewPath;
-		echo '</section>';
-	}
-
-	require 'views/footer.php';
-
-} catch (Exception $e) {
-	require 'views/header.php';
-	echo '<div class="error">';
-	echo '<h2>Произошла ошибка</h2>';
-	echo '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
-
-	if (ini_get('display_errors')) {
-		echo '<pre>File: ' . htmlspecialchars($e->getFile()) . ':' . htmlspecialchars($e->getLine()) . '</pre>';
-		echo '<pre>' . htmlspecialchars($e->getTraceAsString()) . '</pre>';
-		error_log("Error: " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
-	}
-
-	echo '</div>';
-	require 'views/footer.php';
-}
+<?php require 'templates/footer.php'; ?>
