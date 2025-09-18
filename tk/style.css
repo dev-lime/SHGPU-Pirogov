@@ -395,12 +395,6 @@ input[type="checkbox"]:indeterminate {
 	pointer-events: none;
 }
 
-.user-info {
-	float: right;
-	margin: 10px;
-	color: #666;
-}
-
 .user-actions {
 	display: flex;
 	gap: 5px;

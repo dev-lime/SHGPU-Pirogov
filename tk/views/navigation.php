@@ -7,7 +7,7 @@
 			<li><a href="#vehicles">Транспорт</a></li>
 		<?php endif; ?>
 
-		<?php if (hasPermission('view_orders') || hasPermission('view_own_orders')): ?>
+		<?php if (hasPermission('view_orders') || hasPermission('view_own_orders') || hasPermission('view_all')): ?>
 			<li><a href="#orders">Заказы</a></li>
 		<?php endif; ?>
 
@@ -16,11 +16,10 @@
 		<?php endif; ?>
 
 		<li style="float:right">
-			<span class="user-info">
-				<?= htmlspecialchars($_SESSION['username'] ?? '') ?>
-				(<?= htmlspecialchars($_SESSION['role'] ?? '') ?>)
-			</span>
-			<a href="/tk/logout.php">Выход</a>
+			<a href="/tk/logout.php">Выход
+				(<?= htmlspecialchars($_SESSION['username'] ?? '') ?>)
+				<!--<?= htmlspecialchars($_SESSION['role'] ?? '') ?>-->
+			</a>
 		</li>
 	</ul>
 </nav>
