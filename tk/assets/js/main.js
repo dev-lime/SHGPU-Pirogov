@@ -10,57 +10,87 @@ document.addEventListener('DOMContentLoaded', function () {
 function initSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
-    const toggleBtn = document.querySelector('.sidebar-toggle');
-
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', toggleSidebar);
-    }
 
     // Закрытие по клику вне панели
     if (overlay) {
-        overlay.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeMobileSidebar);
     }
 
     // Закрытие по ESC
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
-            closeSidebar();
+            closeMobileSidebar();
         }
+    });
+
+    // Адаптивное поведение
+    function handleResize() {
+        if (window.innerWidth >= 1025) {
+            // На десктопе всегда показываем sidebar
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Обработчик изменения размера окна
+    window.addEventListener('resize', handleResize);
+
+    // Автоматическое закрытие sidebar при клике на ссылку на мобильных
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function () {
+            if (window.innerWidth < 1025) {
+                closeMobileSidebar();
+            }
+        });
     });
 }
 
-function toggleSidebar() {
+// Переключение компактного режима (десктоп)
+function toggleSidebarCompact() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('compact');
+
+    // Сохраняем состояние в localStorage
+    localStorage.setItem('sidebarCompact', sidebar.classList.contains('compact'));
+}
+
+// Мобильное меню
+function toggleMobileSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
 
-    if (sidebar && overlay) {
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-        document.body.classList.toggle('sidebar-active');
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+
+    if (sidebar.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
     }
 }
 
-function openSidebar() {
+function closeMobileSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
 
-    if (sidebar && overlay) {
-        sidebar.classList.add('active');
-        overlay.classList.add('active');
-        document.body.classList.add('sidebar-active');
-    }
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
 }
 
-function closeSidebar() {
+// Восстановление состояния sidebar при загрузке
+document.addEventListener('DOMContentLoaded', function () {
     const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
+    const isCompact = localStorage.getItem('sidebarCompact') === 'true';
 
-    if (sidebar && overlay) {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.classList.remove('sidebar-active');
+    if (isCompact && window.innerWidth >= 1025) {
+        sidebar.classList.add('compact');
     }
-}
+
+    initSidebar();
+});
 
 // Уведомления
 function showNotification(message, type = 'success') {

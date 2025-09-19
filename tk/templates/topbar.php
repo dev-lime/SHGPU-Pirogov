@@ -1,9 +1,9 @@
 <div class="topbar">
     <div class="topbar-left">
-        <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <button class="mobile-sidebar-toggle" onclick="toggleMobileSidebar()">
             <i class="fas fa-bars"></i>
         </button>
-        <h2><?= $pageTitle ?? 'Транспортная компания' ?></h2>
+        <h1 class="topbar-title"><?= $pageTitle ?? 'Дашборд' ?></h1>
     </div>
 
     <div class="topbar-right">
@@ -14,9 +14,9 @@
                 <small>(<?= htmlspecialchars($_SESSION['role'] ?? 'неавторизован') ?>)</small>
             </span>
             <div class="dropdown">
-                <a href="/tk/profile.php" class="dropdown-item">
+                <!--<a href="/tk/profile.php" class="dropdown-item">
                     <i class="fas fa-user-cog"></i> Профиль
-                </a>
+                </a>-->
                 <a href="/tk/logout.php" class="dropdown-item">
                     <i class="fas fa-sign-out-alt"></i> Выйти
                 </a>

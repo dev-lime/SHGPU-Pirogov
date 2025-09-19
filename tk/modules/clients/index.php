@@ -46,7 +46,7 @@ require '../../templates/header.php';
                         <?php if (!empty($client['created_at'])): ?>
                             <?= date('d.m.Y', strtotime($client['created_at'])) ?>
                         <?php else: ?>
-                            Не указана
+                            Не указано
                         <?php endif; ?>
                     </td>
                     <td>

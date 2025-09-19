@@ -1,0 +1,135 @@
+/* unified.css - унифицированные стили */
+:root {
+    /* Цвета */
+    --primary: #007AFF;
+    --primary-dark: #0056CC;
+    --secondary: #8E8E93;
+    --success: #34C759;
+    --warning: #FF9500;
+    --danger: #FF3B30;
+    --info: #5AC8FA;
+    
+    /* Фоны */
+    --background-primary: #FFFFFF;
+    --background-secondary: #F2F2F7;
+    --background-tertiary: #E5E5EA;
+    
+    /* Текст */
+    --text-primary: #000000;
+    --text-secondary: #8E8E93;
+    --text-tertiary: #AEAEB2;
+    
+    /* Границы */
+    --border-primary: #C7C7CC;
+    --border-secondary: #E5E5EA;
+    
+    /* Тени */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+    
+    /* Радиусы */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+}
+
+/* Общие стили для карточек */
+.card {
+    background: var(--background-primary);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Стили для таблиц */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--background-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.data-table th,
+.data-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.data-table th {
+    background: var(--background-secondary);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Стили для кнопок */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--background-secondary);
+    color: var(--text-primary);
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Стили для статусов */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.status-new {
+    background: rgba(0, 122, 255, 0.12);
+    color: var(--primary);
+}
+
+.status-picked_up {
+    background: rgba(255, 149, 0, 0.12);
+    color: var(--warning);
+}
+
+.status-delivered {
+    background: rgba(52, 199, 89, 0.12);
+    color: var(--success);
+}
+
+.status-cancelled {
+    background: rgba(255, 59, 48, 0.12);
+    color: var(--danger);
+}

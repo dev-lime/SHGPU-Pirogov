@@ -7,6 +7,7 @@
     <title><?= $pageTitle ?? 'Транспортная компания' ?></title>
     <link rel="stylesheet" href="/tk/assets/css/main.css">
     <link rel="stylesheet" href="/tk/assets/css/sidebar.css">
+    <link rel="stylesheet" href="/tk/assets/css/unified.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 

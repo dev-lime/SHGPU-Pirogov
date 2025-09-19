@@ -72,7 +72,13 @@ require '../../templates/header.php';
                             Нет прав
                         <?php endif; ?>
                     </td>
-                    <td><?= date('d.m.Y H:i', strtotime($user['created_at'])) ?></td>
+                    <td>
+                        <?php if (!empty($client['created_at'])): ?>
+                            <?= date('d.m.Y', strtotime($client['created_at'])) ?>
+                        <?php else: ?>
+                            Не указано
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <div class="action-buttons">
                             <a href="edit.php?id=<?= $user['user_id'] ?>" class="btn btn-sm btn-warning">
